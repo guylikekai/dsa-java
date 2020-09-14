@@ -19,9 +19,6 @@ public class LongIntegerQuiz extends LongInteger {
 
     @Override
     protected void addDifferentSign (LongInteger n) {
-        // copies largest absolute value LongInteger to result
-        // byte[] result = new byte [Math.max(digits.length, n.digits.length)];
-        // result = compareAbs(n) > 0 ? Arrays.copyOf(digits, result.length) : Arrays.copyOf(n.digits, result.length);
 
         // sets reference result to larger LongInteger and stores sign of this in "a"
         byte[] result = compareAbs(n) > 0 ? digits : n.digits;
