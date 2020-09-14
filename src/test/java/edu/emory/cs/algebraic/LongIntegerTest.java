@@ -3,7 +3,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
+/** @author Jinho D. Choi */
 public class LongIntegerTest {
     @Test
     public void testConstructors() {
