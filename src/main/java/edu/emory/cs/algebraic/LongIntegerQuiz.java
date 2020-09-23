@@ -32,10 +32,14 @@ public class LongIntegerQuiz extends LongInteger {
             if (result[i] < subtract.digits[i]) {
                 for (int j = i+1; j < result.length; j++) {
                     if (result[j] != 0) {
-                        result[j] -= 1;
-                        result[i] += 10;
+                        while (j > i) {
+                            result[j] -= 1;
+                            result[--j] += 10;
+                        }
                         break;
+
                     }
+
                 }
             }
             result[i] -= subtract.digits[i];
