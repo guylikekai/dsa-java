@@ -1,8 +1,11 @@
 package edu.emory.cs.sort.comparison;
-import edu.emory.cs.sort.comparison.ShellSort;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
 
+/**
+ * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
+ */
 public class ShellSortKnuth<T extends Comparable<T>> extends ShellSort<T> {
     public ShellSortKnuth() {
         this(Comparator.naturalOrder());
@@ -15,8 +18,9 @@ public class ShellSortKnuth<T extends Comparable<T>> extends ShellSort<T> {
     @Override
     protected void populateSequence(int n) {
         n /= 3;
+
         for (int t = sequence.size() + 1; ; t++) {
-            int h = (int)((Math.pow(3, t) - 1)/2);
+            int h = (int) ((Math.pow(3, t) - 1) / 2);
             if (h <= n) sequence.add(h);
             else break;
         }
@@ -24,7 +28,7 @@ public class ShellSortKnuth<T extends Comparable<T>> extends ShellSort<T> {
 
     @Override
     protected int getSequenceStartIndex(int n) {
-        int index = Collections.binarySearch(sequence, n/3);
+        int index = Collections.binarySearch(sequence, n / 3);
         if (index < 0) index = -(index + 1);
         if (index == sequence.size()) index--;
         return index;

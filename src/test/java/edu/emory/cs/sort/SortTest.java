@@ -11,6 +11,7 @@ import edu.emory.cs.sort.divide_conquer.MergeSort;
 import edu.emory.cs.sort.divide_conquer.QuickSort;
 import edu.emory.cs.sort.hybrid.HybridSort;
 import edu.emory.cs.sort.hybrid.HybridSortBaseline;
+import edu.emory.cs.sort.hybrid.HybridSortHW;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -41,7 +42,8 @@ public class SortTest {
 //
 //        testRobustness(new IntegerBucketSort(0, 10000));
 //        testRobustness(new LSDRadixSort());
-        testRobustness(new HybridSortBaseline());
+ //       testRobustness(new HybridSortBaseline());
+        testRobustness(new HybridSortHW<>());
     }
 
     void testRobustness(HybridSort<Integer> engine) {
@@ -59,15 +61,17 @@ public class SortTest {
 //            assertArrayEquals(original, sorted);
 //        }
 
-        Integer[][] input = {{0,  1,  2,  3},
+        Integer[][] input = {{5,  1,  2,  3},
                 {7,  6,  5,  4},
                 {0,  3,  1,  2},
                 {4,  7,  6,  5},
                 {9,  8, 11, 10}};
 
-        Integer[] sorted = {0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 9, 10, 11};
+        Integer[] sorted = {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 9, 10, 11};
 
         Integer[] original = engine.sort(input);
+        for (Integer num : original )
+            System.out.println(num);
         assertArrayEquals(original, sorted);
     }
 

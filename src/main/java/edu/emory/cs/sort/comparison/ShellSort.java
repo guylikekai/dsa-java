@@ -1,7 +1,12 @@
 package edu.emory.cs.sort.comparison;
-import edu.emory.cs.sort.comparison.InsertionSort;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
+ */
 public abstract class ShellSort<T extends Comparable<T>> extends InsertionSort<T> {
     protected List<Integer> sequence;
 
@@ -11,10 +16,6 @@ public abstract class ShellSort<T extends Comparable<T>> extends InsertionSort<T
         populateSequence(10000);
     }
 
-    protected abstract void populateSequence(int n);
-
-    protected abstract int getSequenceStartIndex(int n);
-
     @Override
     public void sort(T[] array, int beginIndex, int endIndex) {
         int n = endIndex - beginIndex;
@@ -23,4 +24,16 @@ public abstract class ShellSort<T extends Comparable<T>> extends InsertionSort<T
         for (int i = getSequenceStartIndex(n); i >= 0; i--)
             sort(array, beginIndex, endIndex, sequence.get(i));
     }
+
+    /**
+     * Populates the gap sequence with respect to the size of the list.
+     * @param n the size of the list to be sorted.
+     */
+    protected abstract void populateSequence(int n);
+
+    /**
+     * @param n the size of the list to be sorted.
+     * @return the starting index of the sequence with respect to the size of the list.
+     */
+    protected abstract int getSequenceStartIndex(int n);
 }
