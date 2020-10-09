@@ -4,14 +4,8 @@ import edu.emory.cs.sort.comparison.HeapSort;
 import edu.emory.cs.sort.comparison.InsertionSort;
 import edu.emory.cs.sort.comparison.SelectionSort;
 import edu.emory.cs.sort.comparison.ShellSortKnuth;
-import edu.emory.cs.sort.distribution.IntegerBucketSort;
-import edu.emory.cs.sort.distribution.LSDRadixSort;
-import edu.emory.cs.sort.divide_conquer.IntroSort;
-import edu.emory.cs.sort.divide_conquer.MergeSort;
-import edu.emory.cs.sort.divide_conquer.QuickSort;
 import edu.emory.cs.sort.hybrid.HybridSort;
-import edu.emory.cs.sort.hybrid.HybridSortBaseline;
-import edu.emory.cs.sort.hybrid.HybridSortHW;
+import edu.emory.cs.sort.hybrid.HybridSortHW1;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -43,7 +37,7 @@ public class SortTest {
 //        testRobustness(new IntegerBucketSort(0, 10000));
 //        testRobustness(new LSDRadixSort());
  //       testRobustness(new HybridSortBaseline());
-        testRobustness(new HybridSortHW<>());
+        testRobustness(new HybridSortHW1<>());
     }
 
     void testRobustness(HybridSort<Integer> engine) {
