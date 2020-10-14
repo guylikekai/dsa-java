@@ -137,10 +137,10 @@ public class TreeTest {
 //        assertEquals(5, tree.remove(5).getKey().intValue());    // root
     }
 
-    @Test
-    @Ignore
+   @Test
+//    @Ignore
     public void testRobustness() {
-        testRobustness(new BinarySearchTree<>());
+        testRobustness(new BalancedBinarySearchTreeQuiz());
         testRobustness(new AVLTree<>());
         testRobustness(new RedBlackTree<>());
     }

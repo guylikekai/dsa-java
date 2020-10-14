@@ -19,7 +19,7 @@ public class BalancedBinarySearchTreeQuiz<T extends Comparable<T>> extends Abstr
             BinaryNode<T> grandparent = node.getGrandParent();
             if (!parent.hasBothChildren() && grandparent.getRightChild() == parent) {
                 BinaryNode<T> uncle = node.getUncle();
-                if (!uncle.hasBothChildren() && (uncle.hasLeftChild() || uncle.hasRightChild())) {
+                if (uncle != null && !uncle.hasBothChildren() && (uncle.hasLeftChild() || uncle.hasRightChild())) {
                     // TODO: Rotation algorithm
                     if (parent.getRightChild() == node) {
                         rotateLeft(grandparent);
