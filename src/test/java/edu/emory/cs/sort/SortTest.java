@@ -4,8 +4,11 @@ import edu.emory.cs.sort.comparison.HeapSort;
 import edu.emory.cs.sort.comparison.InsertionSort;
 import edu.emory.cs.sort.comparison.SelectionSort;
 import edu.emory.cs.sort.comparison.ShellSortKnuth;
-import edu.emory.cs.sort.hybrid.HybridSort;
-import edu.emory.cs.sort.hybrid.HybridSortHW1;
+import edu.emory.cs.sort.distribution.IntegerBucketSort;
+import edu.emory.cs.sort.distribution.LSDRadixSort;
+import edu.emory.cs.sort.divide_conquer.IntroSort;
+import edu.emory.cs.sort.divide_conquer.MergeSort;
+import edu.emory.cs.sort.divide_conquer.QuickSort;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -24,49 +27,34 @@ public class SortTest {
     @Test
     public void testRobustness() {
 
-//        testRobustness(new SelectionSort<>());
-//        testRobustness(new InsertionSort<>());
-//        testRobustness(new HeapSort<>());
-//        testRobustness(new ShellSortKnuth<>());
-//
-//        testRobustness(new MergeSort<>());
-//        testRobustness(new QuickSort<>());
-//        testRobustness(new IntroSort<>(new HeapSort<Integer>()));
-//        testRobustness(new IntroSort<>(new ShellSortKnuth<Integer>()));
-//
-//        testRobustness(new IntegerBucketSort(0, 10000));
-//        testRobustness(new LSDRadixSort());
- //       testRobustness(new HybridSortBaseline());
-        testRobustness(new HybridSortHW1<>());
+        testRobustness(new SelectionSort<>());
+        testRobustness(new InsertionSort<>());
+        testRobustness(new HeapSort<>());
+        testRobustness(new ShellSortKnuth<>());
+
+        testRobustness(new MergeSort<>());
+        testRobustness(new QuickSort<>());
+        testRobustness(new IntroSort<>(new HeapSort<Integer>()));
+        testRobustness(new IntroSort<>(new ShellSortKnuth<Integer>()));
+
+        testRobustness(new IntegerBucketSort(0, 10000));
+        testRobustness(new LSDRadixSort());
     }
 
-    void testRobustness(HybridSort<Integer> engine) {
-//        final int iter = 100;
-//        final int size = 1000;
-//        final Random rand = new Random();
-        //Integer[][] original, sorted;
+    void testRobustness(AbstractSort<Integer> engine) {
+        final int iter = 100;
+        final int size = 1000;
+        final Random rand = new Random();
+        Integer[] original, sorted;
 
-//        for (int i = 0; i < iter; i++) {
-//            original = Stream.generate(() -> rand.nextInt(size)).limit(size).toArray(Integer[][]::new);
-//            sorted = Arrays.copyOf(original, size);
-//
-//            engine.sort(original);
-//            Arrays.sort(sorted);
-//            assertArrayEquals(original, sorted);
-//        }
+        for (int i = 0; i < iter; i++) {
+            original = Stream.generate(() -> rand.nextInt(size)).limit(size).toArray(Integer[]::new);
+            sorted = Arrays.copyOf(original, size);
 
-        Integer[][] input = {{5,  1,  2,  3},
-                {7,  6,  5,  4},
-                {0,  3,  1,  2},
-                {4,  7,  6,  5},
-                {9,  8, 11, 10}};
-
-        Integer[] sorted = {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 9, 10, 11};
-
-        Integer[] original = engine.sort(input);
-        for (Integer num : original )
-            System.out.println(num);
-        assertArrayEquals(original, sorted);
+            engine.sort(original);
+            Arrays.sort(sorted);
+            assertArrayEquals(original, sorted);
+        }
     }
 
     @Test
@@ -82,7 +70,7 @@ public class SortTest {
         final int init_size = 1000;
         final int inc = 1000;
         final int iter = 1000;
-        final InputNature nature = InputNature.RANDOM;
+        final InputNature nature = InputNature.DESCENDING;
 
         for (int size = init_size; size <= max_size; size += inc) {
             // JVM warmup

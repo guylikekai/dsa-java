@@ -1,6 +1,5 @@
 package edu.emory.cs.sort.distribution;
 
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.function.Function;
 
@@ -8,75 +7,48 @@ import java.util.function.Function;
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
 public class RadixSortQuiz extends RadixSort {
-//    @Override
-//    public void sort(Integer[] array, int beginIndex, int endIndex) {
-//        int maxBit = getMaxBit(array, beginIndex, endIndex);
-//        int[] aux = new int[array.length];
-//        for (int bit = maxBit - 1; bit >= 0; bit--) {
-//            int div = (int)Math.pow(10, bit);
-//            int[] count = new int[10];
-//            for (int i = 0; i < array.length; i++) {
-//                count[(array[i] / div) % 10]++;
-//
-//            }
-//            for (int i = 0; i < 9; i++) {
-//                count[i + 1] += count[i];
-//            }
-//            for (int i = start; i < count[x]; i++) {
-//                aux[i] =
-//            }
-//        }
-//    }
 
 
-
-        @Override
+    @Override
     public void sort(Integer[] array, int beginIndex, int endIndex) {
         int maxBit = getMaxBit(array, beginIndex, endIndex);
-        sort(array, beginIndex, endIndex, maxBit-1);
+        sort(array, beginIndex, endIndex, maxBit - 1);
     }
 
-    protected void sort(Integer[] array, int beginIndex, int endIndex, int bit) {
-//        System.out.println("Begin indexxxx" + beginIndex);
-//        System.out.println("End Indexxxx" + endIndex);
-            if (beginIndex >= endIndex | bit < 0) return;
-        int[] indexes = new int[11];
+    public void sort(Integer[] array, int beginIndex, int endIndex, int bit) {
+        if (bit < 0) return;
         int div = (int)Math.pow(10, bit);
-        int counter = 1;
+
+        int begin;
+        int end;
+        int i;
+        int j;
+        int x;
+
+        x = 0;
+        int[] sizeArray = new int[10];
+        for (Deque<Integer> bucket : buckets) {
+            sizeArray[x] = bucket.size();
+            x++;
+        }
 
         distribute(array, beginIndex, endIndex, key -> (key/div)%10);
-        for (Deque<Integer> bucket : buckets) {
-//            indexes[counter++] = bucket.size() + indexes[counter - 2];
-            int x = beginIndex;
-            while (!bucket.isEmpty()) {
-                array[x] = bucket.remove();
-//                System.out.println("in method" + array[x]);
-                x++;
-            }
-            indexes[counter++] = x;
+
+        bit--;
+        begin = beginIndex;
+        for (i = 0; i < 10; i++) {
+            Deque<Integer> bucket = buckets.get(i);
+            end = begin + bucket.size() - sizeArray[i];
+            j = begin;
+            while(bucket.size() > sizeArray[i]) array[j++] = bucket.removeLast();
+            sort(array, begin, end, bit);
+            begin = end;
         }
-//        System.out.println("out");
-//        System.out.println("Begin index" + beginIndex);
-//        System.out.println("End Index" + endIndex);
-//        System.out.println("bit" + bit);
-        for (int i = 0; i < 10; i++) {
-            sort(array, beginIndex + indexes[i] + 1, beginIndex + indexes[i+1] , bit-1);
-        }
-
-
-
     }
 
 
-    protected void distribute(Integer[] array, int beginIndex, int endIndex, Function<Integer, Integer> bucketIndex) {
+    public void distribute(Integer[] array, int beginIndex, int endIndex, Function<Integer, Integer> bucketIndex) {
         for (int i = beginIndex; i < endIndex; i++)
             buckets.get(bucketIndex.apply(array[i])).add(array[i]);
     }
-
 }
-
-
-
-
-
-
