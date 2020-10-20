@@ -25,9 +25,6 @@ public class TrieQuiz extends Trie<Integer> {
 
         }
 
-
-        //  this is a dummy return statement
-        //return List.of(new Entity(44, 57, 0), new Entity(14, 25, 1));
         return result;
     }
 
