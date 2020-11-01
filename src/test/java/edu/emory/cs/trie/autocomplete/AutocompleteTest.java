@@ -27,7 +27,7 @@ public class AutocompleteTest {
         String prefix;
         List<String> expected;
 
-        prefix = "sh";
+        prefix = "sh ";
         expected = List.of("she", "ship", "shell");
         testGetCandidates(ac, eval, prefix, expected);
 
@@ -53,13 +53,14 @@ public class AutocompleteTest {
             if (expected.equals(candidates)) {
                 eval.correct++;
                 log += "PASS";
-            }
-            else
+            } else
                 log += String.format("FAIL -> expected = %s, returned = %s", expected, candidates);
+        } finally {
+
         }
-        catch (Exception e) {
-            log += "ERROR";
-        }
+//        catch (Exception e) {
+//            log += "ERROR";
+//        }
 
         System.out.println(log);
     }

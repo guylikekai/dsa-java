@@ -17,49 +17,56 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
     @Override
     public List<String> getCandidates(String prefix) {
-        System.out.println("hi");
         List<String> temp;
+        prefix = prefix.trim();
         TrieNode<List<String>> origPrefixNode = find(prefix);
-        System.out.println("out");
 
+        if (origPrefixNode == null) return List.of("This prefix does not exist in the dictionary");
         if (origPrefixNode.isEndState()) {
-            System.out.println("yes");
-            temp = origPrefixNode.getValue();
+            temp = origPrefixNode.getValue() == null ? new ArrayList<>() : origPrefixNode.getValue();
+            temp.add(prefix);
             origPrefixNode.setValue(temp);
         }
 
-        System.out.println("no");
         getCandidates(prefix, origPrefixNode);
-        System.out.println(origPrefixNode.getValue());
         return origPrefixNode.getValue().subList(0, getMax());
 
     }
 
     public void getCandidates(String currPrefix, TrieNode<List<String>> origPrefixNode) {
-        List<String> origPrefixValue = origPrefixNode.getValue();
         List <String> temp;
+        if (origPrefixNode.getValue() == null) origPrefixNode.setValue(new ArrayList<>());
+        List<String> origPrefixValue = origPrefixNode.getValue();
 
-        if (origPrefixValue.size() >= getMax()) return;
-        if (checkEnd(currPrefix).isEmpty()) return;
-        temp = checkEnd(currPrefix);
-        for (String x : temp) {
-            if (origPrefixValue.contains(x)) continue;
-            origPrefixValue.add(x);
-        }
-        origPrefixNode.setValue(origPrefixValue);
-        if (origPrefixValue.size() >= getMax() || !find(currPrefix).hasChildren()) return;
-        else {
+        if (checkEnd(currPrefix).isEmpty()) {
             temp = checkExisting(currPrefix);
             for (String x : temp) {
                 getCandidates(x, origPrefixNode);
             }
-        }
+        } else temp = checkEnd(currPrefix);
+
+        if (origPrefixValue == null) origPrefixValue.add(temp.get(0));
+            if (origPrefixValue.size() >= getMax()) return;
+
+            for (String x : temp) {
+                if (origPrefixValue.contains(x)) continue;
+                origPrefixValue.add(x);
+            }
+            origPrefixNode.setValue(origPrefixValue);
+            if (origPrefixValue.size() >= getMax() || !find(currPrefix).hasChildren()) return;
+            else {
+                temp = checkExisting(currPrefix);
+                for (String x : temp) {
+                    getCandidates(x, origPrefixNode);
+                }
+            }
+
     }
 
     public List<String> checkEnd(String parent) {
         List<String> result = new ArrayList();
         for (char alpha = 'a'; alpha < '{'; alpha++) {
-            if (find(parent + alpha).isEndState()) {
+            if (find(parent + alpha)!= null && find(parent + alpha).isEndState()) {
                 result.add(parent + alpha);
             }
         }
