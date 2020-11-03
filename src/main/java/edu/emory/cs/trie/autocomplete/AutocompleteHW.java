@@ -15,49 +15,68 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
         super(dict_file, max);
     }
 
+//    public int getLongest(String prefix) {
+//       boolean x = true;
+//        while (x) {
+//
+//        }
+//    }
     @Override
     public List<String> getCandidates(String prefix) {
+        //int longest = getLongest(prefix);
         List<String> temp;
         prefix = prefix.trim();
         TrieNode<List<String>> origPrefixNode = find(prefix);
 
-        if (origPrefixNode == null) return List.of("This prefix does not exist in the dictionary");
-        if (origPrefixNode.isEndState()) {
-            temp = origPrefixNode.getValue() == null ? new ArrayList<>() : origPrefixNode.getValue();
-            temp.add(prefix);
-            origPrefixNode.setValue(temp);
+        if (origPrefixNode == null) {
+            put(prefix, null);
+            find(prefix).setEndState(false);
+            return List.of("This prefix does not exist in the dictionary; has been inputted endState = false");
         }
 
-        getCandidates(prefix, origPrefixNode);
-        return origPrefixNode.getValue().subList(0, getMax());
+        if (origPrefixNode.getValue() == null) {
+            temp = new ArrayList<>();
+            origPrefixNode.setValue(temp);
+//            if (origPrefixNode.isEndState()) {
+//                temp.add(prefix);
+//                origPrefixNode.setValue(temp);
+//            }
+        }
+        int x = prefix.length();
+        while (origPrefixNode.getValue().size() < getMax() && x < 10) {
+            getCandidates(prefix, origPrefixNode, x);
+            x++;
+        }
 
+        if (origPrefixNode.getValue().size() >= getMax()) return origPrefixNode.getValue().subList(0, getMax());
+        else return origPrefixNode.getValue();
     }
 
-    public void getCandidates(String currPrefix, TrieNode<List<String>> origPrefixNode) {
+
+    public void getCandidates(String currPrefix, TrieNode<List<String>> origPrefixNode, int x) {
+        if (currPrefix.length() > x) return;
         List <String> temp;
-        if (origPrefixNode.getValue() == null) origPrefixNode.setValue(new ArrayList<>());
         List<String> origPrefixValue = origPrefixNode.getValue();
+        if (origPrefixValue.size() >= getMax()) return;
 
         if (checkEnd(currPrefix).isEmpty()) {
             temp = checkExisting(currPrefix);
-            for (String x : temp) {
-                getCandidates(x, origPrefixNode);
+            for (String word : temp) {
+                getCandidates(word, origPrefixNode, x);
             }
         } else temp = checkEnd(currPrefix);
 
-        if (origPrefixValue == null) origPrefixValue.add(temp.get(0));
-            if (origPrefixValue.size() >= getMax()) return;
-
-            for (String x : temp) {
-                if (origPrefixValue.contains(x)) continue;
-                origPrefixValue.add(x);
+            for (String word : temp) {
+                if (origPrefixValue.contains(word)) continue;
+                origPrefixValue.add(word);
             }
+
             origPrefixNode.setValue(origPrefixValue);
             if (origPrefixValue.size() >= getMax() || !find(currPrefix).hasChildren()) return;
             else {
                 temp = checkExisting(currPrefix);
-                for (String x : temp) {
-                    getCandidates(x, origPrefixNode);
+                for (String word : temp) {
+                    getCandidates(word, origPrefixNode, x);
                 }
             }
 
@@ -65,6 +84,8 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
     public List<String> checkEnd(String parent) {
         List<String> result = new ArrayList();
+        if (find(parent) == null) return result;
+        if (find(parent).isEndState()) result.add(parent);
         for (char alpha = 'a'; alpha < '{'; alpha++) {
             if (find(parent + alpha)!= null && find(parent + alpha).isEndState()) {
                 result.add(parent + alpha);
@@ -76,7 +97,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
     public List<String> checkExisting(String parent) {
         List<String> result = new ArrayList();
         for (char alpha = 'a'; alpha < '{'; alpha++) {
-            if (find(parent + alpha) != null && find(parent + alpha).hasChildren()) {
+            if (find(parent + alpha) != null) {
                 result.add(parent + alpha);
             }
         }

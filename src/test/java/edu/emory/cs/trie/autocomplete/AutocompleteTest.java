@@ -27,7 +27,7 @@ public class AutocompleteTest {
         String prefix;
         List<String> expected;
 
-        prefix = "sh ";
+        prefix = "sf ";
         expected = List.of("she", "ship", "shell");
         testGetCandidates(ac, eval, prefix, expected);
 
