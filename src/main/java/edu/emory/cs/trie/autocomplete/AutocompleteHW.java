@@ -106,8 +106,10 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
     @Override
     public void pickCandidate(String prefix, String candidate) {
+        List<String> lst = new ArrayList<>();
+        lst.add(candidate);
         if (find(prefix) == null) {
-            put(prefix, List.of(candidate));
+            put(prefix, lst);
             find(prefix).setEndState(false);
         } else {
             if (find(prefix).hasValue()) {
@@ -118,7 +120,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
                 temp.add(0, candidate);
                 find(prefix).setValue(temp);
             } else {
-                find(prefix).setValue(List.of(candidate));
+                find(prefix).setValue(lst);
             }
         }
 
