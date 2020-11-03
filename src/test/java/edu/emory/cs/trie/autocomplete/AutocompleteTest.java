@@ -37,8 +37,9 @@ public class AutocompleteTest {
 
         prefix = "sh";
         expected = List.of("ship", "she", "shell");
-        ac.pickCandidate(prefix, "ship");
+        ac.pickCandidate(prefix, "lkjhgfdsdfgyuijhbv");
         testGetCandidates(ac, eval, prefix, expected);
+        System.out.println(ac.find("lkjhgfdsdfgyuijhbv") == null);
 
         System.out.printf("Score: %d/%d\n", eval.correct, eval.total);
     }

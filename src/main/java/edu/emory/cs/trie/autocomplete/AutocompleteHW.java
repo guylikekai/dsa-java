@@ -3,6 +3,10 @@ package edu.emory.cs.trie.autocomplete;
 import edu.emory.cs.trie.TrieNode;
 
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,20 +15,24 @@ import java.util.List;
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
 public class AutocompleteHW extends Autocomplete<List<String>> {
+   private int longest = 0;
     public AutocompleteHW(String dict_file, int max) {
         super(dict_file, max);
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(dict_file)));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.length() > longest) longest = line.length();
+            }
+
+            System.out.printf("length of longest word: %d\n", longest);
+        } catch (IOException ignored) {}
     }
 
-//    public int getLongest(String prefix) {
-//       boolean x = true;
-//        while (x) {
-//
-//        }
-//    }
     @Override
     public List<String> getCandidates(String prefix) {
-        //int longest = getLongest(prefix);
-        List<String> temp;
         prefix = prefix.trim();
         TrieNode<List<String>> origPrefixNode = find(prefix);
 
@@ -35,15 +43,10 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
         }
 
         if (origPrefixNode.getValue() == null) {
-            temp = new ArrayList<>();
-            origPrefixNode.setValue(temp);
-//            if (origPrefixNode.isEndState()) {
-//                temp.add(prefix);
-//                origPrefixNode.setValue(temp);
-//            }
+            origPrefixNode.setValue(new ArrayList<>());
         }
         int x = prefix.length();
-        while (origPrefixNode.getValue().size() < getMax() && x < 10) {
+        while (origPrefixNode.getValue().size() < getMax() && x < longest) {
             getCandidates(prefix, origPrefixNode, x);
             x++;
         }
@@ -107,7 +110,10 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
     @Override
     public void pickCandidate(String prefix, String candidate) {
-        if (find(prefix) != null) {
+        if (find(prefix) == null) {
+            put(prefix, List.of(candidate));
+            find(prefix).setEndState(false);
+        } else {
             if (find(prefix).hasValue()) {
                 List<String> temp = find(prefix).getValue();
                 if (find(prefix).getValue().contains(candidate)) {
@@ -115,11 +121,13 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
                 }
                 temp.add(0, candidate);
                 find(prefix).setValue(temp);
-                return;
+            } else {
+                find(prefix).setValue(List.of(candidate));
             }
-
-            find(prefix).setValue(List.of(candidate));
         }
+
+        if (find(candidate) == null) put(candidate, null);
+        else find(candidate).setEndState(true);
     }
 
 }
