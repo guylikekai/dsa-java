@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
- */
 public class AutocompleteHW extends Autocomplete<List<String>> {
    private int longest;
     public AutocompleteHW(String dict_file, int max) {

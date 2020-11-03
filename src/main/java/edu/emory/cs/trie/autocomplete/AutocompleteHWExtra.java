@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
- */
 public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
     private int longest;
     public AutocompleteHWExtra(String dict_file, int max) {
