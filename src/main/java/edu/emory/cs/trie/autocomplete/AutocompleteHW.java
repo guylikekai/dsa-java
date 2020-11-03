@@ -128,6 +128,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
         if (find(candidate) == null) put(candidate, null);
         else find(candidate).setEndState(true);
+        if (candidate.length() > longest) longest = candidate.length();
     }
 
 }
