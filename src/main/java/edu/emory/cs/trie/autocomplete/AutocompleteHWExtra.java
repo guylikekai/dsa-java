@@ -42,7 +42,6 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
         }
         int x = prefix.length();
         while (origPrefixNode.getValue().size() < getMax() && x < longest) {
-            System.out.println("x = " + x);
             getCandidates(prefix, origPrefixNode, x);
             x++;
         }
@@ -62,7 +61,6 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
         if (currPrefix.length() > x) return;
         List<Word> temp;
         List<Word> origPrefixValue = origPrefixNode.getValue();
-        System.out.println(origPrefixValue.size());
         if (origPrefixValue.size() >= getMax()) return;
 
         if (checkEnd(currPrefix).isEmpty()) {
@@ -72,21 +70,15 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
             }
         } else temp = checkEnd(currPrefix);
 
-        System.out.println("temp size " + temp.get(0).getKey());
         for (Word word : temp) {
             boolean doIt = true;
-            System.out.println(origPrefixValue.size());
             for (Word k : origPrefixValue) {
-                System.out.println("ahhh");
-                System.out.println(word.getKey() + "      " + k.getKey());
                 if (k.getKey().equals(word.getKey())) {
-                    System.out.println("in");
                     doIt = false;
                     break;
                 }
 
             }
-            System.out.println(doIt);
             if (doIt) origPrefixValue.add(word);
         }
 

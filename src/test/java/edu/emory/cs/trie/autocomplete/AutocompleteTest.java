@@ -28,19 +28,18 @@ public class AutocompleteTest {
         String prefix = new String();
         List<String> expected;
 
-//        int length = 2;
-//
-//
-//        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-//
-////        Random random = new Random();
-////        for (int i = 0; i < length; i++) {
-////            char rand = alphabet.charAt(random.nextInt(alphabet.length()));
-////            prefix += rand;
-////        }
+        int length = 2;
 
 
-        prefix = "wk";
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            char rand = alphabet.charAt(random.nextInt(alphabet.length()));
+            prefix += rand;
+        }
+
+
         expected = List.of("she", "ship", "shell");
         testGetCandidates(ac, eval, prefix, expected);
 
