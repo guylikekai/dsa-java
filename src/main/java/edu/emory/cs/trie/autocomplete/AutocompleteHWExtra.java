@@ -42,12 +42,15 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
         }
         int x = prefix.length();
         while (origPrefixNode.getValue().size() < getMax() && x < longest) {
+            System.out.println("x = " + x);
             getCandidates(prefix, origPrefixNode, x);
             x++;
         }
 
             List<String> sub = new ArrayList<>();
             int size = origPrefixNode.getValue().size() >= getMax() ? getMax() : origPrefixNode.getValue().size();
+
+            System.out.println(origPrefixNode.getValue().size());
             for (int i = 0; i < size ; i++) {
                 sub.add(origPrefixNode.getValue().get(i).getKey());
             }
@@ -57,8 +60,9 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
 
     public void getCandidates(String currPrefix, TrieNode<List<Word>> origPrefixNode, int x) {
         if (currPrefix.length() > x) return;
-        List <Word> temp;
+        List<Word> temp;
         List<Word> origPrefixValue = origPrefixNode.getValue();
+        System.out.println(origPrefixValue.size());
         if (origPrefixValue.size() >= getMax()) return;
 
         if (checkEnd(currPrefix).isEmpty()) {
@@ -68,18 +72,29 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
             }
         } else temp = checkEnd(currPrefix);
 
+        System.out.println("temp size " + temp.get(0).getKey());
         for (Word word : temp) {
-            if (origPrefixValue.contains(word)) continue;
-            origPrefixValue.add(word);
+            boolean doIt = true;
+            System.out.println(origPrefixValue.size());
+            for (Word k : origPrefixValue) {
+                System.out.println("ahhh");
+                System.out.println(word.getKey() + "      " + k.getKey());
+                if (k.getKey().equals(word.getKey())) {
+                    System.out.println("in");
+                    doIt = false;
+                    break;
+                }
+
+            }
+            System.out.println(doIt);
+            if (doIt) origPrefixValue.add(word);
         }
 
         origPrefixNode.setValue(origPrefixValue);
-        if (origPrefixValue.size() >= getMax() || !find(currPrefix).hasChildren()) return;
-        else {
+
             temp = checkExisting(currPrefix);
             for (Word word : temp) {
                 getCandidates(word.getKey(), origPrefixNode, x);
-            }
         }
 
     }
