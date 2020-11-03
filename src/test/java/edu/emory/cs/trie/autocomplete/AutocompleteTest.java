@@ -18,7 +18,7 @@ public class AutocompleteTest {
         final String dict_file = "src/main/resources/dict.txt";
         final int max = 20;
 
-        Autocomplete<?> ac = new AutocompleteHW(dict_file, max);
+        Autocomplete<?> ac = new AutocompleteHWExtra(dict_file, max);
         Eval eval = new Eval();
         testAutocomplete(ac, eval);
     }
@@ -31,13 +31,20 @@ public class AutocompleteTest {
         expected = List.of("she", "ship", "shell");
         testGetCandidates(ac, eval, prefix, expected);
 
-        prefix = "sh";
+        prefix = "sf";
         expected = List.of("she", "ship", "shell", "school");
         testGetCandidates(ac, eval, prefix, expected);
 
         prefix = "sh";
         expected = List.of("ship", "she", "shell");
-        ac.pickCandidate(prefix, "lkjhg");
+        ac.pickCandidate(prefix, "ship");
+        ac.pickCandidate(prefix, "ship");
+        ac.pickCandidate(prefix, "ship");
+        testGetCandidates(ac, eval, prefix, expected);
+        ac.pickCandidate(prefix, "lkjh");
+        ac.pickCandidate(prefix, "lkjh");
+        ac.pickCandidate(prefix, "yes");
+        ac.pickCandidate(prefix, "yes");
         testGetCandidates(ac, eval, prefix, expected);
 
         System.out.printf("Score: %d/%d\n", eval.correct, eval.total);

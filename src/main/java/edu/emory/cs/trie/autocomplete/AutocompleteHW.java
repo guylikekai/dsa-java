@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
 public class AutocompleteHW extends Autocomplete<List<String>> {
-   private int longest = 0;
+   private int longest;
     public AutocompleteHW(String dict_file, int max) {
         super(dict_file, max);
 
@@ -27,7 +27,6 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
                 if (line.length() > longest) longest = line.length();
             }
 
-            System.out.printf("length of longest word: %d\n", longest);
         } catch (IOException ignored) {}
     }
 
