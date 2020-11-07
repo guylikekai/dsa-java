@@ -14,6 +14,7 @@ public class GraphQuiz extends Graph {
         Deque<Integer> notVisited = IntStream.range(0, size()).boxed().collect(Collectors.toCollection(ArrayDeque::new));
         List<List<Integer>> result = new ArrayList<>();
 
+        System.out.println("thisssss" + getIncomingEdges(2));
         while (!notVisited.isEmpty()) {
             cycleCount(notVisited.poll(), notVisited, new ArrayList<>());
         }
@@ -25,7 +26,22 @@ public class GraphQuiz extends Graph {
         for (List<Integer> lst: visited) {
             System.out.println(lst.toString());
         }
-        return visited.size();
+
+
+        int counter = 0;
+        for (List<Integer> lst : visited) {
+            boolean hi = true;
+            if (lst.size()>2) {
+                for (int i = 0; i < lst.size() - 1; i++) {
+                    if (!undirectedEdge(lst.get(i), lst.get(i+1))) {
+                        hi = false;
+                    }
+                }
+            } else continue;
+
+            if (hi) counter++;
+        }
+        return visited.size() + counter;
     }
 
     private void cycleCount(int current, Deque<Integer> notVisited, List<Integer> tried) {
@@ -37,9 +53,11 @@ public class GraphQuiz extends Graph {
                 System.out.println("in: " + tried.toString());
                 tried.sort(Comparator.naturalOrder());
                 HashSet<Integer>temp = new HashSet(tried);
-                if (tried.size() == temp.size())
+                if (tried.size() == temp.size()){
                     visited.add(new ArrayList<Integer>(tried));
-                return;
+                    return;
+                }
+
             } else if (tried.size() >= size()) {
                 break;
             }
@@ -48,5 +66,20 @@ public class GraphQuiz extends Graph {
 
         }
 
+    }
+
+    private boolean undirectedEdge (int i, int j) {
+        boolean first = false;
+        boolean second = false;
+        for (Edge edge : getIncomingEdges(i)) {
+            if (edge.getSource() == j) first = true;
+        }
+        for (Edge edge : getIncomingEdges(j)) {
+            if (edge.getSource() == i) second = true;
+        }
+        boolean result = false;
+        if (first && second) result = true;
+
+        return result;
     }
 }
