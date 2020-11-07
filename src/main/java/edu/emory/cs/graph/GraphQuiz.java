@@ -14,19 +14,12 @@ public class GraphQuiz extends Graph {
         Deque<Integer> notVisited = IntStream.range(0, size()).boxed().collect(Collectors.toCollection(ArrayDeque::new));
         List<List<Integer>> result = new ArrayList<>();
 
-        System.out.println("thisssss" + getIncomingEdges(2));
         while (!notVisited.isEmpty()) {
             cycleCount(notVisited.poll(), notVisited, new ArrayList<>());
         }
 
 
         visited = new HashSet<>(visited);
-
-        System.out.println("Done");
-        for (List<Integer> lst: visited) {
-            System.out.println(lst.toString());
-        }
-
 
         int counter = 0;
         for (List<Integer> lst : visited) {
@@ -47,10 +40,8 @@ public class GraphQuiz extends Graph {
     private void cycleCount(int current, Deque<Integer> notVisited, List<Integer> tried) {
         tried.add(current);
 
-        System.out.println("out: " + tried.toString());
         for (Edge edge : getIncomingEdges(current)) {
             if (tried.get(0) == edge.getSource()) {
-                System.out.println("in: " + tried.toString());
                 tried.sort(Comparator.naturalOrder());
                 HashSet<Integer>temp = new HashSet(tried);
                 if (tried.size() == temp.size()){
