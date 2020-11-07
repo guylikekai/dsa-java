@@ -17,7 +17,7 @@ public class AutocompleteTest {
     @Test
     public void test() {
         final String dict_file = "src/main/resources/dict.txt";
-        final int max = 20;
+        final int max = 500;
 
         Autocomplete<?> ac = new AutocompleteHWExtra(dict_file, max);
         Eval eval = new Eval();
@@ -28,7 +28,7 @@ public class AutocompleteTest {
         String prefix = new String();
         List<String> expected;
 
-        int length = 2;
+        int length = 1;
 
 
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -43,6 +43,7 @@ public class AutocompleteTest {
         expected = List.of("she", "ship", "shell");
         testGetCandidates(ac, eval, prefix, expected);
 
+        
 //        prefix = "sf";
 //        expected = List.of("she", "ship", "shell", "school");
 //        testGetCandidates(ac, eval, prefix, expected);
