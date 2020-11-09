@@ -19,7 +19,7 @@ public class TrieQuiz extends Trie<Integer> {
         for (int i = 0; i < inputArray.length; i++){
             if (node != null) {
                 node = node.getChild(inputArray[i]);
-                check(node, i, inputArray, result);
+                i = check(node, i, inputArray, result);
                 node = getRoot();
             }
 
@@ -29,7 +29,7 @@ public class TrieQuiz extends Trie<Integer> {
     }
 
 
-    public void check(TrieNode<Integer> node, int beginIndex, char[] inputArray, List<Entity> result) {
+    public int check(TrieNode<Integer> node, int beginIndex, char[] inputArray, List<Entity> result) {
         int i = beginIndex + 1;
         while (node != null && i < inputArray.length) {
             if (node.getChild(inputArray[i]) != null) {
@@ -38,11 +38,11 @@ public class TrieQuiz extends Trie<Integer> {
                     result.add(new Entity(beginIndex, i + 1, node.getValue()));
                 }
             } else {
-                return;
+                return beginIndex; //changed it from i
             }
             i++;
         }
-        return;
+        return beginIndex; //changed it from i
     }
 
 }
