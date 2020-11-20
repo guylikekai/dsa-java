@@ -79,7 +79,7 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
                 }
 
             }
-            if (doIt) origPrefixValue.add(word);
+            if (doIt && find(word.getKey()).isEndState()) origPrefixValue.add(word);
         }
 
         origPrefixNode.setValue(origPrefixValue);

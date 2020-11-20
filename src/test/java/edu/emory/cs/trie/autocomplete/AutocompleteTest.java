@@ -17,7 +17,7 @@ public class AutocompleteTest {
     @Test
     public void test() {
         final String dict_file = "src/main/resources/dict.txt";
-        final int max = 500;
+        final int max = 20;
 
         Autocomplete<?> ac = new AutocompleteHWExtra(dict_file, max);
         Eval eval = new Eval();
@@ -40,9 +40,12 @@ public class AutocompleteTest {
         }
 
 
-        expected = List.of("she", "ship", "shell");
+        prefix = "she";
+        expected = List.of("a", "aa", "ab", "ac", "ad");
         testGetCandidates(ac, eval, prefix, expected);
-
+        ac.pickCandidate(prefix, "ship");
+        testGetCandidates(ac, eval, prefix, expected);
+System.out.println(ac.find("sheba").isEndState());
         
 //        prefix = "sf";
 //        expected = List.of("she", "ship", "shell", "school");

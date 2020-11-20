@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AutocompleteHW extends Autocomplete<List<String>> {
    private int longest;
+
     public AutocompleteHW(String dict_file, int max) {
         super(dict_file, max);
 
@@ -37,6 +38,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
             find(prefix).setEndState(false);
             return List.of("This prefix does not exist in the dictionary; has been inputted endState = false");
         }
+
 
         if (origPrefixNode.getValue() == null) {
             origPrefixNode.setValue(new ArrayList<>());
@@ -67,7 +69,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
 
             for (String word : temp) {
                 if (origPrefixValue.contains(word)) continue;
-                origPrefixValue.add(word);
+                if (find(word).isEndState()) origPrefixValue.add(word);
             }
 
             origPrefixNode.setValue(origPrefixValue);
