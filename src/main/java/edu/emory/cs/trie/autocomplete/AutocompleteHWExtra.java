@@ -37,9 +37,9 @@ public class AutocompleteHWExtra extends Autocomplete<List<Word>> {
             return List.of("This prefix does not exist in the dictionary; has been inputted endState = false");
         }
 
-        if (origPrefixNode.getValue() == null) {
+        if (origPrefixNode.getValue() == null)
             origPrefixNode.setValue(new ArrayList<>());
-        }
+
         int x = prefix.length();
         while (origPrefixNode.getValue().size() < getMax() && x < longest) {
             getCandidates(prefix, origPrefixNode, x);

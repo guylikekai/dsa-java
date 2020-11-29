@@ -40,7 +40,7 @@ public class AutocompleteTest {
         }
 
 
-        prefix = "she";
+        prefix = "";
         expected = List.of("a", "aa", "ab", "ac", "ad");
         testGetCandidates(ac, eval, prefix, expected);
         ac.pickCandidate(prefix, "ship");
