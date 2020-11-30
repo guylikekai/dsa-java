@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class FordFulkersonTest {
     @Test
     public void test() {
-        NetworkFlowQuiz mfa = new NetworkFlowQuiz();
+        NetworkFlowQuizExtra mfa = new NetworkFlowQuizExtra();
         Graph graph;
         Set<Subgraph> mf;
 
@@ -25,8 +25,10 @@ public class FordFulkersonTest {
         //assertEquals(5, (int) mf);
 
         graph = getGraph0();
-        mf = test(mfa, graph, 0, graph.size() - 1);
+        mf = test(mfa, graph, 0, graph.size());
+        if(mf.isEmpty()) System.out.println("Empty");
         for (Subgraph sub : mf) {
+
             System.out.println(sub.getEdges());
         }
 
@@ -49,7 +51,7 @@ public class FordFulkersonTest {
 //        assertEquals(2, (int) mf);
 //    }
 
-    Set<Subgraph> test(NetworkFlowQuiz mfa, Graph graph, int source, int target) {
+    Set<Subgraph> test(NetworkFlowQuizExtra mfa, Graph graph, int source, int target) {
         Set<Subgraph> m = mfa.getAugmentingPaths(graph, source, target);
         return m;
     }

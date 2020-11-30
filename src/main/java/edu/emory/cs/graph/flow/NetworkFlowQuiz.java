@@ -20,6 +20,8 @@ public class NetworkFlowQuiz {
     public Set<Subgraph> getAugmentingPaths(Graph graph, int source, int target) {
         Set<Subgraph> result = new HashSet<Subgraph>();
         Subgraph sub = new Subgraph();
+        if (source == target || target >= graph.size() || target < 0 || source >= graph.size() || source < 0) return result;
+
 
         getPaths(graph, sub, result, source, target);
 

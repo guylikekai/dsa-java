@@ -16,13 +16,15 @@ public class NetworkFlowQuizExtra {
      * @return a set of all augmenting paths between the specific source and target vertices in the graph.
      */
     public Set<Subgraph> getAugmentingPaths(Graph graph, int source, int target) {
-        if (source == target) return null;
+
         Queue<Subgraph> queue = new LinkedList<>();
         Set<Integer> visited;
         Subgraph sub;
         Set<Subgraph> result = new HashSet<Subgraph>();
         Subgraph temp;
         int index;
+
+        if (source == target || target >= graph.size() || target < 0 || source >= graph.size() || source < 0) return result;
 
         // adds incoming edges of source to queue
         for (Edge edge : graph.getIncomingEdges(target)) {
