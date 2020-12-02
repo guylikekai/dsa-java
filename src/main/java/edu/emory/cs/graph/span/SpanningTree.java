@@ -49,7 +49,7 @@ public class SpanningTree implements Comparable<SpanningTree> {
         StringBuilder build = new StringBuilder();
 
         for (Edge edge : edges)
-            build.append(String.format("\n%d <- %d : %f", edge.getTarget(), edge.getSource(), edge.getWeight()));
+            build.append(String.format(" %d <- %d : %f", edge.getTarget(), edge.getSource(), edge.getWeight()));
 
         return build.length() > 0 ? build.substring(1) : "";
     }
