@@ -13,7 +13,6 @@ public class MSTAllHW implements MSTAll {
     @Override
     public List<SpanningTree> getMinimumSpanningTrees(Graph graph) {
         List<SpanningTree> result = new ArrayList<>();
-        List<Edge> array = new ArrayList<>();
         List<Integer> vertices = new ArrayList<>();
 
         for (int i = 0; i < graph.size(); i++) {
@@ -23,31 +22,51 @@ public class MSTAllHW implements MSTAll {
         heapPermutation(vertices, vertices.size(), graph, result);
 
 
-        for (int z = 0; z < graph.size(); z++) {
-            for (int i = 0; i < result.size(); i++) {
-                for (int j = i + 1; j < result.size(); j++) {
-                    array.clear();
-                    array.addAll(result.get(j).getEdges());
-                    for (Edge edge : result.get(i).getEdges()) {
-                        for (int k = 0; k < array.size(); k++) {
-                            if (isSameEdge(edge, array.get(k))) array.remove(k);
-                        }
-                    }
-                    if (array.isEmpty()) result.remove(j);
-                }
-            }
-        }
+//        for (int z = 0; z < graph.size(); z++) {
+//            for (int i = 0; i < result.size(); i++) {
+//                for (int j = i + 1; j < result.size(); j++) {
+//                    array.clear();
+//                    array.addAll(result.get(j).getEdges());
+//                    for (Edge edge : result.get(i).getEdges()) {
+//                        for (int k = 0; k < array.size(); k++) {
+//                            if (isSameEdge(edge, array.get(k))) array.remove(k);
+//                        }
+//                    }
+//                    if (array.isEmpty()) result.remove(j);
+//                }
+//            }
+//        }
 
         return result;
     }
 
+    private boolean isSameTree(List<Edge> spanningTree, List<Edge> tree) {
+        int count = tree.size();
+        for (Edge edge : spanningTree) {
+            for (Edge edge1 : tree) {
+                if (isSameEdge(edge, edge1)) count--;
+            }
+        }
+
+        if (count == 0) return true;
+        return false;
+    }
+    boolean add;
     private void getAll(Graph graph, Subgraph sub, List<Integer> missing, List<SpanningTree> result) {
         if (missing.isEmpty()) {
+            add = true;
             SpanningTree tree = new SpanningTree();
             for (Edge edge : sub.getEdges()) {
                 tree.addEdge(edge);
             }
-            if (!result.contains(tree)) result.add(tree);
+
+            if (result.contains(tree)) return;
+            for (SpanningTree spanningTree : result) {
+                if (isSameTree(spanningTree.getEdges(), sub.getEdges())) add = false;
+            }
+
+            if (add) result.add(tree);
+
             return;
         }
 
