@@ -13,7 +13,6 @@ public class MSTAllHW implements MSTAll {
     static int count = 0;
     @Override
     public List<SpanningTree> getMinimumSpanningTrees(Graph graph) {
-        PriorityQueue<Edge> queue = new PriorityQueue<>(graph.getAllEdges());
         List<SpanningTree> result = new ArrayList<>();
         List<Edge> array = new ArrayList<>();
         List<Integer> vertices = new ArrayList<>();
