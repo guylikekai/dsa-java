@@ -10,7 +10,6 @@ import java.util.*;
 
 /** @author Jinho D. Choi */
 public class MSTAllHW implements MSTAll {
-    static int count = 0;
     @Override
     public List<SpanningTree> getMinimumSpanningTrees(Graph graph) {
         List<SpanningTree> result = new ArrayList<>();
@@ -44,7 +43,6 @@ public class MSTAllHW implements MSTAll {
 
     private void getAll(Graph graph, Subgraph sub, List<Integer> missing, List<SpanningTree> result) {
         if (missing.isEmpty()) {
-            //System.out.println("Done");
             SpanningTree tree = new SpanningTree();
             for (Edge edge : sub.getEdges()) {
                 tree.addEdge(edge);
@@ -52,6 +50,7 @@ public class MSTAllHW implements MSTAll {
             if (!result.contains(tree)) result.add(tree);
             return;
         }
+
         int target = missing.get(0);
 
         for (Edge edge : graph.getIncomingEdges(target)) {
@@ -63,11 +62,10 @@ public class MSTAllHW implements MSTAll {
             } else continue;
         }
         return;
-
     }
+
     void heapPermutation(List<Integer> lst, int size, Graph graph, List<SpanningTree> result)
     {
-
         if (size == 1) {
             Subgraph sub;
                 for (Edge edge : graph.getIncomingEdges(lst.get(0))) {
@@ -147,7 +145,7 @@ public class MSTAllHW implements MSTAll {
 
     public static void main(String args[]) {
         MSTAllHW test = new MSTAllHW();
-        Graph graph = test.getCompleteGraph(6);
+        Graph graph = test.getCompleteGraph(5);
 
 //        graph.setUndirectedEdge(0, 1, 1);
 //        graph.setUndirectedEdge(0, 2, 1);
@@ -155,10 +153,6 @@ public class MSTAllHW implements MSTAll {
 
 
         List<SpanningTree> testList = test.getMinimumSpanningTrees(graph);
-        System.out.println(count);
-        for (SpanningTree tree : testList) {
-            System.out.println(tree.toString());
-        }
         System.out.println(testList.size());
 
 
