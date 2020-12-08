@@ -143,30 +143,30 @@ public class MSTAllHW implements MSTAll {
         return max;
     }
 
-    public static void main(String args[]) {
-        MSTAllHW test = new MSTAllHW();
-        Graph graph = test.getCompleteGraph(5);
-
-//        graph.setUndirectedEdge(0, 1, 1);
-//        graph.setUndirectedEdge(0, 2, 1);
-//        graph.setUndirectedEdge(1, 2, 2);
-
-
-        List<SpanningTree> testList = test.getMinimumSpanningTrees(graph);
-        System.out.println(testList.size());
-
-
-
-    }
-
-
-    public Graph getCompleteGraph(int V) {
-        Graph graph = new Graph(V);
-
-        for (int i = 0; i < V - 1; i++)
-            for (int j = i + 1; j < V; j++)
-                graph.setUndirectedEdge(i, j, 1);
-
-        return graph;
-    }
+//    public static void main(String args[]) {
+//        MSTAllHW test = new MSTAllHW();
+//        Graph graph = test.getCompleteGraph(5);
+//
+////        graph.setUndirectedEdge(0, 1, 1);
+////        graph.setUndirectedEdge(0, 2, 1);
+////        graph.setUndirectedEdge(1, 2, 2);
+//
+//
+//        List<SpanningTree> testList = test.getMinimumSpanningTrees(graph);
+//        System.out.println(testList.size());
+//
+//
+//
+//    }
+//
+//
+//    public Graph getCompleteGraph(int V) {
+//        Graph graph = new Graph(V);
+//
+//        for (int i = 0; i < V - 1; i++)
+//            for (int j = i + 1; j < V; j++)
+//                graph.setUndirectedEdge(i, j, 1);
+//
+//        return graph;
+//    }
 }
