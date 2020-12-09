@@ -10,10 +10,13 @@ import java.util.*;
 
 /** @author Jinho D. Choi */
 public class MSTAllHW implements MSTAll {
+    double finish;
     @Override
     public List<SpanningTree> getMinimumSpanningTrees(Graph graph) {
         List<SpanningTree> result = new ArrayList<>();
         List<Integer> vertices = new ArrayList<>();
+        final double weight = getMST(graph).getTotalWeight();
+        finish = Math.pow(graph.size(), graph.size() - 2);
 
         for (int i = 0; i < graph.size(); i++) {
             vertices.add(i);
@@ -21,21 +24,14 @@ public class MSTAllHW implements MSTAll {
 
         heapPermutation(vertices, vertices.size(), graph, result);
 
-
-//        for (int z = 0; z < graph.size(); z++) {
-//            for (int i = 0; i < result.size(); i++) {
-//                for (int j = i + 1; j < result.size(); j++) {
-//                    array.clear();
-//                    array.addAll(result.get(j).getEdges());
-//                    for (Edge edge : result.get(i).getEdges()) {
-//                        for (int k = 0; k < array.size(); k++) {
-//                            if (isSameEdge(edge, array.get(k))) array.remove(k);
-//                        }
-//                    }
-//                    if (array.isEmpty()) result.remove(j);
-//                }
-//            }
-//        }
+        for (int i = 0; i < result.size(); i++) {
+            //System.out.println("AHHHHHHH");
+            if (result.get(i).getTotalWeight() > weight) {
+                result.remove(i);
+                i--;
+                //System.out.println("REMOVEEEED");
+            }
+        }
 
         return result;
     }
@@ -51,11 +47,15 @@ public class MSTAllHW implements MSTAll {
         if (count == 0) return true;
         return false;
     }
+
     boolean add;
+    SpanningTree tree;
     private void getAll(Graph graph, Subgraph sub, List<Integer> missing, List<SpanningTree> result) {
+        if (result.size() >= finish) return;
+
         if (missing.isEmpty()) {
             add = true;
-            SpanningTree tree = new SpanningTree();
+            tree = new SpanningTree();
             for (Edge edge : sub.getEdges()) {
                 tree.addEdge(edge);
             }
@@ -115,12 +115,13 @@ public class MSTAllHW implements MSTAll {
         }
     }
 
-    private SpanningTree getMST(Graph graph, List<Edge> queue) {
+    private SpanningTree getMST(Graph graph) {
+        PriorityQueue<Edge> queue = new PriorityQueue<>(graph.getAllEdges());
         DisjointSet forest = new DisjointSet(graph.size());
         SpanningTree tree = new SpanningTree();
 
         while (!queue.isEmpty()) {
-            Edge edge = queue.remove(0);
+            Edge edge = queue.poll();
 
             if (!forest.inSameSet(edge.getTarget(), edge.getSource())) {
                 tree.addEdge(edge);
@@ -133,14 +134,6 @@ public class MSTAllHW implements MSTAll {
         }
 
         return tree;
-    }
-
-    private void add(PriorityQueue<Edge> queue, Set<Integer> visited, Graph graph, int target) {
-        visited.add(target);
-        for (Edge edge : graph.getIncomingEdges(target)) {
-            if (!visited.contains(edge.getSource()))
-                queue.add(edge);
-        }
     }
 
     private boolean isSameEdge (Edge edge1, Edge edge2) {
@@ -156,36 +149,23 @@ public class MSTAllHW implements MSTAll {
 
     }
 
-    private double getMaxWeight(SpanningTree tree) {
-        double max = 0;
-        for (Edge edge : tree.getEdges()) if (edge.getWeight() > max) max = edge.getWeight();
-        return max;
+    public static void main(String[] args) {
+        MSTAllHW hi = new MSTAllHW();
+
+        List<SpanningTree> lst = hi.getMinimumSpanningTrees(hi.getGraph3a());
+        for (SpanningTree tree : lst) {
+            System.out.println(tree.toString());
+        }
+
     }
 
-//    public static void main(String args[]) {
-//        MSTAllHW test = new MSTAllHW();
-//        Graph graph = test.getCompleteGraph(5);
-//
-////        graph.setUndirectedEdge(0, 1, 1);
-////        graph.setUndirectedEdge(0, 2, 1);
-////        graph.setUndirectedEdge(1, 2, 2);
-//
-//
-//        List<SpanningTree> testList = test.getMinimumSpanningTrees(graph);
-//        System.out.println(testList.size());
-//
-//
-//
-//    }
-//
-//
-//    public Graph getCompleteGraph(int V) {
-//        Graph graph = new Graph(V);
-//
-//        for (int i = 0; i < V - 1; i++)
-//            for (int j = i + 1; j < V; j++)
-//                graph.setUndirectedEdge(i, j, 1);
-//
-//        return graph;
-//    }
+    Graph getGraph3a() {
+        Graph graph = new Graph(3);
+
+        graph.setUndirectedEdge(0, 1, 1);
+        graph.setUndirectedEdge(0, 2, 1);
+        graph.setUndirectedEdge(1, 2, 2);
+
+        return graph;
+    }
 }

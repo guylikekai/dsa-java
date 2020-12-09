@@ -21,6 +21,7 @@ public class MSTAllHWTest {
             et = System.currentTimeMillis();
             System.out.printf("%3d: %8d, %d\n", i, list.size(), et - st);
             for (SpanningTree tree : list) {
+                //System.out.println(tree.getTotalWeight());
                 System.out.println(tree.toString());
             }
         }
@@ -55,8 +56,10 @@ public class MSTAllHWTest {
                     correct++;
                 }
             } catch (Exception ignored) {}
-            for (SpanningTree tree : gold.getMinimumSpanningTrees(graph))
+            for (SpanningTree tree : gold.getMinimumSpanningTrees(graph)) {
+                System.out.println(tree.getTotalWeight());
                 System.out.println(tree.toString());
+            }
             //System.out.println(gold.getMinimumSpanningTrees(graph).get(0).toString());
             System.out.printf("%2d: %b\n", (i + 1), b);
         }
